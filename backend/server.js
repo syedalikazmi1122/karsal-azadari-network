@@ -7,11 +7,17 @@ const writingRoutes = require('./routes/writingRoutes');
 const { initializeAdmin } = require('./controllers/authcontroller');
 
 dotenv.config();
+const corsOptions = {
+  origin: "*", 
+  credentials: true,
+};
+
 
 const app = express();
+app.use(cors(corsOptions));
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
-app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/writings', writingRoutes);
