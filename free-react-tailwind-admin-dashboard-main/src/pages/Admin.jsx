@@ -7,7 +7,8 @@ function Admin() {
 
   return (
     <div>
-      {token ? <AdminDashboard token={token} /> : <AdminLogin setToken={setToken} />}
+      <AdminLogin setToken={setToken} />
+      {/* {token ? <AdminDashboard token={token} /> : <AdminLogin setToken={setToken} />} */}
     </div>
   );
 }
