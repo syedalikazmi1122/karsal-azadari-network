@@ -7,14 +7,17 @@ function AdminDashboard({ token }) {
   const [content, setContent] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit =	async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formattedContent = content.replace(/\n/g, '<br />');
+
       await axios.post(
         `${import.meta.env.VITE_API_URL}/writings`,
-        { title, type, content },
+        { title, type, content: formattedContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
       setMessage('Writing added successfully');
       setTitle('');
       setType('noha');

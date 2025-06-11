@@ -14,7 +14,7 @@ function WritingDetail() {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/writings/${id}`);
         setWriting(response.data);
         setLoading(false);
-      } catch (err) { 
+      } catch (err) {
         setError('Error fetching writing');
         setLoading(false);
       }
@@ -26,11 +26,15 @@ function WritingDetail() {
   if (error) return <p className="text-red-500">{error}</p>;
   if (!writing) return null;
 
-   return (
+  return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <h2 className="font-nastaleeq text-2xl font-bold mb-4">{writing.title}</h2>
       <p className="text-gray-600 capitalize mb-4">{writing.type}</p>
-      <p className="font-nastaleeq text-lg" dir="rtl">{writing.content}</p>
+      <div
+        className="font-nastaleeq text-lg leading-relaxed"
+        dir="rtl"
+        dangerouslySetInnerHTML={{ __html: writing.content }}
+      />
     </div>
   );
 }
