@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Route, Router, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
-import Home from './pages/home.jsx';
-import Admin from './pages/admin.jsx';
+import Home from './pages/Home.jsx';
+import Admin from './pages/Admin.jsx';
 import WritingDetail from './components/WritingDetail.jsx';
 
 function App() {
