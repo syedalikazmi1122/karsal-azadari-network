@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import WritingCard from '../components/WritingCard';
 import WritingDetail from '../components/WritingDetail';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [writings, setWritings] = useState([]);
@@ -29,6 +30,19 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {console.log('Home component rendered')}
+<Link to="/admin" onClick={() => console.log('Button clicked')}>
+<button
+  className="absolute top-6 right-8 px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-gold-400 shadow-lg text-white font-semibold hover:from-gold-400 hover:to-purple-600 transition-all duration-300 border-2 border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
+  style={{ position: 'relative', zIndex: 10 }}
+  onClick={(e) => {
+    e.stopPropagation();
+    console.log('Button clicked');
+  }}
+>
+  Admin
+</button>
+</Link>
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>

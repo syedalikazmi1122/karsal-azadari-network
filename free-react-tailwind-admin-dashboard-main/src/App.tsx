@@ -40,15 +40,16 @@ function App() {
           </>
         }
       />
-      <Route
-        path="/admin"
-        element={
-          <>
-            <PageTitle title="Karsal Azadari | Admin " />
-            <Admin />
-          </>
-        }
-      />
+     <Route
+  path="/admin"
+  element={
+    <>
+      <PageTitle title="Karsal Azadari | Admin" />
+      <Admin />
+      {console.log('Admin route rendered')}
+    </>
+  }
+/>
     </Routes>
 );
 
