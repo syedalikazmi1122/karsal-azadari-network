@@ -4,6 +4,7 @@ import axios from 'axios';
 import WritingCard from '../components/WritingCard';
 import WritingDetail from '../components/WritingDetail';
 import { Link } from 'react-router-dom';
+import Admin from './Admin.jsx';
 
 function Home() {
   const [writings, setWritings] = useState([]);
@@ -163,6 +164,13 @@ function Home() {
             }
           />
           <Route path="/writing/:id" element={<WritingDetail />} />
+          <Route 
+          path="/admin"
+          element={
+           <Admin />
+          }
+          />
+
         </Routes>
       </div>
 
