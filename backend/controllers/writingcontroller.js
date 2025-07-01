@@ -1,10 +1,10 @@
 const Writing = require('../models/Writing');
 
 exports.createWriting = async (req, res) => {
-  const { title, type, content } = req.body;
+  const { title, type, content, imageUrl } = req.body;
 
   try {
-    const writing = new Writing({ title, type, content });
+    const writing = new Writing({ title, type, content, imageUrl });
     await writing.save();
     res.status(201).json(writing);
   } catch (error) {
