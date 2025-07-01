@@ -30,6 +30,17 @@ function WritingDetail() {
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
       <h2 className="font-nastaleeq text-2xl font-bold mb-4">{writing.title}</h2>
       <p className="text-gray-600 capitalize mb-4">{writing.type}</p>
+      
+      {writing.imageUrl && (
+        <div className="mb-6">
+          <img 
+            src={writing.imageUrl} 
+            alt={writing.title}
+            className="w-full  object-cover rounded-lg shadow-md"
+          />
+        </div>
+      )}
+      
       <div
         className="font-nastaleeq text-lg leading-relaxed"
         dir="rtl"

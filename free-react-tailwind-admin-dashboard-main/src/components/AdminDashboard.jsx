@@ -1,20 +1,47 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { uploadImage } from '../utils/imageUpload';
 
 function AdminDashboard({ token }) {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('noha');
   const [content, setContent] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [message, setMessage] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+    setMessage('');
+
     try {
+      let imageUrl = null;
+      
+      // Upload image if selected
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
       const formattedContent = content.replace(/\n/g, '<br />');
 
       await axios.post(
         `${import.meta.env.VITE_API_URL}/writings`,
-        { title, type, content: formattedContent },
+        { title, type, content: formattedContent, imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -22,8 +49,12 @@ function AdminDashboard({ token }) {
       setTitle('');
       setType('noha');
       setContent('');
+      setImageFile(null);
+      setImagePreview(null);
     } catch (err) {
-      setMessage('Error adding writing');
+      setMessage('Error adding writing: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -62,15 +93,53 @@ function AdminDashboard({ token }) {
             onChange={(e) => setContent(e.target.value)}
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-nastaleeq"
             rows="6"
-            required
+            
             dir="rtl"
           />
         </div>
+        
+        {/* Image Upload Section */}
+        <div>
+          <label className="block text-sm font-medium mb-2">Image (Optional)</label>
+          <div className="space-y-3">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {imagePreview && (
+              <div className="mt-2">
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  className="w-full h-32 object-cover rounded-md border"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImageFile(null);
+                    setImagePreview(null);
+                  }}
+                  className="mt-2 text-sm text-red-500 hover:text-red-700"
+                >
+                  Remove Image
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+          disabled={isUploading}
+          className={`w-full p-2 rounded-md ${
+            isUploading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-500 hover:bg-blue-600'
+          } text-white`}
         >
-          Submit
+          {isUploading ? 'Uploading...' : 'Submit'}
         </button>
       </form>
     </div>
